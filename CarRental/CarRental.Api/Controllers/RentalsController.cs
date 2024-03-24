@@ -84,21 +84,10 @@ namespace CarRental.Api.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> Post([FromBody] RentalRequestModel rentalRequest)
         {
-            try
-            {
-                var rentalDto = _mapper.Map<RentalDto>(rentalRequest);
-                var addedRentalDto = await _service.AddNewRental(rentalDto);
-                var responseModel = _mapper.Map<RentalResponseModel>(addedRentalDto);
-                return CreatedAtAction(nameof(GetById), new { id = responseModel.Id }, responseModel);
-            }
-            catch (VehicleNotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
-            catch (VehicleNotAvailableException ex)
-            {
-                return Conflict(ex.Message);
-            }
+            var rentalDto = _mapper.Map<RentalDto>(rentalRequest);
+            var addedRentalDto = await _service.AddNewRental(rentalDto);
+            var responseModel = _mapper.Map<RentalResponseModel>(addedRentalDto);
+            return CreatedAtAction(nameof(GetById), new { id = responseModel.Id }, responseModel);
         }
 
         /// <summary>
@@ -115,15 +104,8 @@ namespace CarRental.Api.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Delete(int id)
         {
-            try
-            {
-                await _service.Delete(id);
-                return NoContent();
-            }
-            catch (RentalNotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
+            await _service.Delete(id);
+            return NoContent();
         }
 
         /// <summary>
