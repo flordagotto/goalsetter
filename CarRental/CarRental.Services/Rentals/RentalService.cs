@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CarRental.DataAcces;
 using CarRental.Domain;
+using CarRental.Services.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
@@ -59,13 +60,13 @@ namespace CarRental.Services.Rentals
 
                 if (vehicle == null)
                 {
-                    throw new Exception("The Vehicle selected does not exist");
+                    throw new VehicleNotFoundException("The Vehicle selected does not exist");
                 }
 
                 await _dbContext.Entry(vehicle).Collection(v => v.Rentals).LoadAsync();
                 if (!vehicle.IsAvailable(rentalDto.StartDate, rentalDto.EndDate))
                 {
-                    throw new Exception("The Vehicle is not available for the selected date range");
+                    throw new VehicleNotAvailableException("The Vehicle is not available for the selected date range");
                 }
 
                 var rental = _mapper.Map<Rental>(rentalDto);
@@ -90,7 +91,7 @@ namespace CarRental.Services.Rentals
                 var rental = await _dbContext.Rentals.FindAsync(id);
                 if (rental == null)
                 {
-                    throw new Exception("The rental with id was not found");
+                    throw new RentalNotFoundException($"The Rental with id {id} was not found");
                 }
 
                 _dbContext.Rentals.Remove(rental);
@@ -105,15 +106,11 @@ namespace CarRental.Services.Rentals
             }
         }
 
-        public async Task<RentalDto> CancelRental(long rentalId)
+        public async Task<RentalDto> CancelRental(long id)
         {
             try
             {
-                var rental = await _dbContext.Rentals.FirstOrDefaultAsync(r => r.Id == rentalId);
-                if (rental == null)
-                {
-                    throw new Exception("The Rental with id was not found");
-                }
+                var rental = await _dbContext.Rentals.FirstOrDefaultAsync(r => r.Id == id) ?? throw new RentalNotFoundException($"The Rental with id {id} was not found");
 
                 rental.Canceled = true; 
                 _dbContext.SaveChanges();

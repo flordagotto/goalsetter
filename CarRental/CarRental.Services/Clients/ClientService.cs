@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CarRental.DataAcces;
 using CarRental.Domain;
+using CarRental.Services.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
@@ -77,7 +78,7 @@ namespace CarRental.Services.Clients
                 var client = await _dbContext.Clients.FindAsync(id);
                 if (client == null)
                 {
-                    throw new Exception("The Client with id was not found");
+                    throw new ClientNotFoundException($"The Client with id {id} was not found");
                 }
 
                 _dbContext.Clients.Remove(client);

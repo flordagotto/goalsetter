@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CarRental.DataAcces;
 using CarRental.Domain;
+using CarRental.Services.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
@@ -73,12 +74,7 @@ namespace CarRental.Services.Vehicles
         {
             try
             {
-                var vehicle = await _dbContext.Vehicles.FindAsync(id);
-                if (vehicle == null)
-                {
-                    throw new Exception("The Vehicle with id was not found");
-                }
-
+                var vehicle = await _dbContext.Vehicles.FindAsync(id) ?? throw new VehicleNotFoundException($"The Vehicle with id {id} was not found");
                 _dbContext.Vehicles.Remove(vehicle);
                 await _dbContext.SaveChangesAsync();
 

@@ -9,6 +9,6 @@ namespace CarRental.Services.Rentals
         Task<RentalDto> GetById(long id);
         Task<RentalDto> AddNewRental(RentalDto rentalDto);
         Task<RentalDto> Delete(long id);
-        Task<RentalDto> CancelRental(long Id);
+        Task<RentalDto> CancelRental(long id);
     }
 }
