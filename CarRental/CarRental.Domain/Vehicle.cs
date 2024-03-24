@@ -14,9 +14,9 @@ namespace CarRental.Domain
         {
             return !Rentals.Exists(r =>
                 !r.Canceled &&
-                (startDate.Date >= r.StartDate.Date && startDate.Date <= r.EndDate.Date ||
-                endDate.Date >= r.StartDate.Date && endDate.Date <= r.EndDate.Date ||
-                startDate.Date <= r.StartDate.Date && endDate.Date >= r.EndDate.Date));
+                (startDate >= r.StartDate.AddDays(-1) && startDate <= r.EndDate.AddDays(1) ||
+                endDate >= r.StartDate.AddDays(-1) && endDate <= r.EndDate.AddDays(1) ||
+                startDate <= r.StartDate && endDate >= r.EndDate));
         }
 
         public bool HasPendingRentals()

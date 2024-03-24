@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using CarRental.Api.Models.Rental;
-using CarRental.Services.Exceptions;
 using CarRental.Services.Rentals;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

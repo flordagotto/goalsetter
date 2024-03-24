@@ -16,6 +16,7 @@ namespace CarRental.Api.Filters
             { typeof(VehicleNotFoundException), HttpStatusCode.NotFound },
             { typeof(VehicleNotAvailableException), HttpStatusCode.Conflict },
             { typeof(VehicleWithPendingRentalsException), HttpStatusCode.Conflict },
+            { typeof(DateRangeNotValidException), HttpStatusCode.BadRequest },
             { typeof(Exception), HttpStatusCode.InternalServerError },
         };
 
@@ -33,7 +34,7 @@ namespace CarRental.Api.Filters
             });
 
             context.Result = new ObjectResult(errorDetail);
-            context.HttpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+            context.HttpContext.Response.StatusCode = (int)statusCode;
         }
     }
 }

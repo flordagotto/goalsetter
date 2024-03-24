@@ -56,6 +56,11 @@ namespace CarRental.Services.Rentals
         {
             try
             {
+                if(!DateRangeIsValid(rentalDto.StartDate, rentalDto.EndDate))
+                {
+                    throw new DateRangeNotValidException("The starting date must be greater than ending date");
+                }
+
                 var vehicle = await _dbContext.Vehicles.FirstOrDefaultAsync(v => v.Id == rentalDto.VehicleId);
 
                 if (vehicle == null)
@@ -122,6 +127,11 @@ namespace CarRental.Services.Rentals
                 _logger.LogError(ex, "Error canceling rental");
                 throw;
             }
+        }
+
+        private bool DateRangeIsValid(DateTime startDate, DateTime endDate)
+        {
+            return startDate < endDate;
         }
     }
 }
