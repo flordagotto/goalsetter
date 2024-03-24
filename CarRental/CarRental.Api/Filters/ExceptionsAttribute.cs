@@ -15,6 +15,7 @@ namespace CarRental.Api.Filters
             { typeof(RentalNotFoundException), HttpStatusCode.NotFound },
             { typeof(VehicleNotFoundException), HttpStatusCode.NotFound },
             { typeof(VehicleNotAvailableException), HttpStatusCode.Conflict },
+            { typeof(VehicleWithPendingRentalsException), HttpStatusCode.Conflict },
             { typeof(Exception), HttpStatusCode.InternalServerError },
         };
 

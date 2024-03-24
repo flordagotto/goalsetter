@@ -48,7 +48,7 @@ namespace CarRental.Api.Controllers
         /// <param name="id">vehicle id</param>
         /// <returns>Returns the vehicle</returns>
         /// <response code="200">Returns the vehicle</response>    
-        /// <response code="404">If the vehicle doesn't exists</response>    
+        /// <response code="404">If the vehicle doesn't exist</response>    
         /// <response code="500">If a server realted error occurs</response>  
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -91,7 +91,8 @@ namespace CarRental.Api.Controllers
         /// </summary>
         /// <param name="id">vehicle id</param>
         /// <returns>No content</returns>
-        /// <response code="204">vehicle Deleted</response>    
+        /// <response code="204">Vehicle Deleted</response>    
+        /// <response code="404">Vehicle not found</response>    
         /// <response code="500">If a server realted error occurs</response>  
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]

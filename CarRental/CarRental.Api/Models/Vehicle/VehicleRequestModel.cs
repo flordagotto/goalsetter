@@ -12,7 +12,7 @@ namespace CarRental.Api.Models.Vehicle
         public string Description { get; set; }
 
         [Required(ErrorMessage = "price_per_day is required")]
-        [RegularExpression(@"^\$?\d+(\.(\d{2}))?$")]
+        [RegularExpression(@"^(?!0+(\.0+)?$)\d+(\.\d+)?$", ErrorMessage = "El precio debe ser un número decimal mayor que 0")]
         [JsonProperty(PropertyName = "price_per_day")]
         public decimal PricePerDay { get; set; }
     }
