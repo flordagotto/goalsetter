@@ -13,10 +13,11 @@ namespace CarRental.Domain
 
         public bool IsAvailable(DateTime startDate, DateTime endDate)
         {
-            return !Rentals.Any(r => 
+            return !Rentals.Exists(r =>
                 !r.Canceled &&
-                startDate >= r.StartDate && startDate <= r.EndDate ||
-                endDate >= r.StartDate && endDate <= r.EndDate);
+                (startDate.Date >= r.StartDate.Date && startDate.Date <= r.EndDate.Date ||
+                endDate.Date >= r.StartDate.Date && endDate.Date <= r.EndDate.Date || 
+                startDate.Date <= r.StartDate.Date && endDate.Date >= r.EndDate.Date));
         }
     }
 }

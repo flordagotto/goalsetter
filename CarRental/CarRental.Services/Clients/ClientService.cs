@@ -28,7 +28,7 @@ namespace CarRental.Services.Clients
         {
             try
             {
-                var clients = await _dbContext.Clients.ToListAsync();
+                var clients = await _dbContext.Clients.Include(c => c.Rentals).ToListAsync();
                 return _mapper.Map<List<ClientDto>>(clients);
             }
             catch (Exception ex)

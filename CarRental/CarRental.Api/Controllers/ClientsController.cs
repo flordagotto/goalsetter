@@ -30,7 +30,7 @@ namespace CarRental.Api.Controllers
         /// </summary>
         /// <returns>List of clients</returns>
         /// <response code="200">Returns the list of clients</response>    
-        /// <response code="500">If an error occurs</response>    
+        /// <response code="500">If a server realted error occurs</response>  
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -48,7 +48,7 @@ namespace CarRental.Api.Controllers
         /// <returns>Returns the client</returns>
         /// <response code="200">Returns the client</response>    
         /// <response code="404">If the client doesn't exists</response>    
-        /// <response code="500">If an error ocurres</response>
+        /// <response code="500">If a server realted error occurs</response>  
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -72,7 +72,7 @@ namespace CarRental.Api.Controllers
         /// <returns>Returns the created client</returns>
         /// <response code="201">Client created</response>
         /// <response code="400">Bad Request</response>
-        /// <response code="500">If an error occurs</response>
+        /// <response code="500">If a server realted error occurs</response>  
         // POST: api/People
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
@@ -92,7 +92,7 @@ namespace CarRental.Api.Controllers
         /// <param name="id">client id</param>
         /// <returns>No content</returns>
         /// <response code="204">Client Deleted</response>    
-        /// <response code="500">If an error occurs</response>    
+        /// <response code="500">If a server realted error occurs</response>  
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
