@@ -30,7 +30,7 @@ namespace CarRental.Api.Controllers
         /// </summary>
         /// <returns>List of rentals</returns>
         /// <response code="200">Returns the list of rentals</response>    
-        /// <response code="500">If a server realted error occurs</response>  
+        /// <response code="500">If a server related error occurs</response>  
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -49,7 +49,7 @@ namespace CarRental.Api.Controllers
         /// <returns>Returns the rental</returns>
         /// <response code="200">Returns the rental</response>    
         /// <response code="404">If the rental doesn't exists</response>    
-        /// <response code="500">If a server realted error occurs</response>  
+        /// <response code="500">If a server related error occurs</response>  
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -76,7 +76,9 @@ namespace CarRental.Api.Controllers
         /// <returns>Returns the created rental</returns>
         /// <response code="201">Rental created</response>
         /// <response code="400">Bad Request</response>
-        /// <response code="500">If a server realted error occurs</response>  
+        /// <response code="404">Vehicle not found</response>
+        /// <response code="409">Vehicle not available</response>
+        /// <response code="500">If a server related error occurs</response>  
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -96,7 +98,7 @@ namespace CarRental.Api.Controllers
         /// <returns>No content</returns>
         /// <response code="204">Rental Deleted</response>    
         /// <response code="404">Rental not found</response>    
-        /// <response code="500">If a server realted error occurs</response>    
+        /// <response code="500">If a server related error occurs</response>    
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -116,7 +118,7 @@ namespace CarRental.Api.Controllers
         /// <param name="id">Rental id to be Canceled</param>
         /// <returns>Returns the canceled rental</returns>
         /// <response code="200">Rental canceled</response>
-        /// <response code="500">If a server realted error occurs</response>  
+        /// <response code="500">If a server related error occurs</response>  
         [HttpPatch("{id}/Cancel")]
         public async Task<IActionResult> Cancel(int id)
         {
