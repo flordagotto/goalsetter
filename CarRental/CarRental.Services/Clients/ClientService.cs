@@ -78,7 +78,7 @@ namespace CarRental.Services.Clients
                 var client = await _dbContext.Clients.FindAsync(id);
                 if (client == null)
                 {
-                    throw new ClientNotFoundException($"The Client with id {id} was not found");
+                    throw new EntityNotFoundException($"The Client with id {id} was not found");
                 }
 
                 _dbContext.Clients.Remove(client);

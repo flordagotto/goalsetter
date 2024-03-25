@@ -9,11 +9,9 @@ namespace CarRental.Api.Filters
 {
     public class ExceptionsAttribute : Attribute, IExceptionFilter
     {
-        private static Dictionary<Type, HttpStatusCode> StatusCodeExceptionsDictionary = new Dictionary<Type, HttpStatusCode>
+        private static Dictionary<Type, HttpStatusCode> StatusCodeExceptionsDictionary = new()
         {
-            { typeof(ClientNotFoundException), HttpStatusCode.NotFound },
-            { typeof(RentalNotFoundException), HttpStatusCode.NotFound },
-            { typeof(VehicleNotFoundException), HttpStatusCode.NotFound },
+            { typeof(EntityNotFoundException), HttpStatusCode.NotFound },
             { typeof(VehicleNotAvailableException), HttpStatusCode.Conflict },
             { typeof(VehicleWithPendingRentalsException), HttpStatusCode.Conflict },
             { typeof(DateRangeNotValidException), HttpStatusCode.BadRequest },

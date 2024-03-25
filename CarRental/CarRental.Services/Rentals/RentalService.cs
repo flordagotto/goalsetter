@@ -61,13 +61,7 @@ namespace CarRental.Services.Rentals
                     throw new DateRangeNotValidException("The starting date must be greater than ending date");
                 }
 
-                var vehicle = await _dbContext.Vehicles.FirstOrDefaultAsync(v => v.Id == rentalDto.VehicleId);
-
-                if (vehicle == null)
-                {
-                    throw new VehicleNotFoundException("The Vehicle selected does not exist");
-                }
-
+                var vehicle = await _dbContext.Vehicles.FirstOrDefaultAsync(v => v.Id == rentalDto.VehicleId) ?? throw new EntityNotFoundException($"The Vehicle with id {rentalDto.VehicleId} does not exist");
                 await _dbContext.Entry(vehicle).Collection(v => v.Rentals).LoadAsync();
                 if (!vehicle.IsAvailable(rentalDto.StartDate, rentalDto.EndDate))
                 {
@@ -93,12 +87,7 @@ namespace CarRental.Services.Rentals
         {
             try
             {
-                var rental = await _dbContext.Rentals.FindAsync(id);
-                if (rental == null)
-                {
-                    throw new RentalNotFoundException($"The Rental with id {id} was not found");
-                }
-
+                var rental = await _dbContext.Rentals.FindAsync(id) ?? throw new EntityNotFoundException($"The Rental with id {id} was not found");
                 _dbContext.Rentals.Remove(rental);
                 await _dbContext.SaveChangesAsync();
 
@@ -115,7 +104,7 @@ namespace CarRental.Services.Rentals
         {
             try
             {
-                var rental = await _dbContext.Rentals.FirstOrDefaultAsync(r => r.Id == id) ?? throw new RentalNotFoundException($"The Rental with id {id} was not found");
+                var rental = await _dbContext.Rentals.FirstOrDefaultAsync(r => r.Id == id) ?? throw new EntityNotFoundException($"The Rental with id {id} was not found");
 
                 rental.Canceled = true; 
                 _dbContext.SaveChanges();

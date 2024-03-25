@@ -74,7 +74,7 @@ namespace CarRental.Services.Vehicles
         {
             try
             {
-                var vehicle = await _dbContext.Vehicles.FindAsync(id) ?? throw new VehicleNotFoundException($"The Vehicle with id {id} was not found");
+                var vehicle = await _dbContext.Vehicles.FindAsync(id) ?? throw new EntityNotFoundException($"The Vehicle with id {id} was not found");
                 await _dbContext.Entry(vehicle).Collection(v => v.Rentals).LoadAsync();
 
                 if (vehicle.HasPendingRentals())
