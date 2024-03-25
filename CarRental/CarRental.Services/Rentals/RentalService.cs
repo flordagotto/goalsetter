@@ -88,6 +88,12 @@ namespace CarRental.Services.Rentals
             try
             {
                 var rental = await _dbContext.Rentals.FindAsync(id) ?? throw new EntityNotFoundException($"The Rental with id {id} was not found");
+
+                if (!rental.Canceled)
+                {
+                    throw new PendingRentalException($"The rental with id {id} is pending, it can not be deleted");
+                }
+
                 _dbContext.Rentals.Remove(rental);
                 await _dbContext.SaveChangesAsync();
 

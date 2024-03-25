@@ -79,7 +79,7 @@ namespace CarRental.Services.Vehicles
 
                 if (vehicle.HasPendingRentals())
                 {
-                    throw new VehicleWithPendingRentalsException("The vehicle has pending rentals");
+                    throw new EntityWithPendingRentalsException($"The vehicle with id {id} has pending rentals");
                 }
 
                 _dbContext.Vehicles.Remove(vehicle);

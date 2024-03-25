@@ -22,7 +22,7 @@ namespace CarRental.Domain
         public bool HasPendingRentals()
         {
             return Rentals.Exists(r =>
-                !r.Canceled && DateTime.Today <= r.EndDate.Date
+                !r.Canceled && DateTime.Today <= r.EndDate
             );
         }
     }
