@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace CarRental.Domain
 {
@@ -13,10 +12,33 @@ namespace CarRental.Domain
 
         public bool IsAvailable(DateTime startDate, DateTime endDate)
         {
-            return !Rentals.Any(r => 
+            bool StartDateIsWithinTheDatesOfTheRent(Rental rental)
+            {
+                return startDate >= rental.StartDate.AddDays(-1) && startDate <= rental.EndDate.AddDays(1);
+            }
+
+            bool EndDateIsWithinTheDatesOfTheRent(Rental rental)
+            {
+                return endDate >= rental.StartDate.AddDays(-1) && endDate <= rental.EndDate.AddDays(1);
+            }
+
+            bool DatesOfTheRentAreWithinSentDates(Rental rental)
+            {
+                return startDate <= rental.StartDate && endDate >= rental.EndDate;
+            }
+
+            return !Rentals.Exists(r =>
                 !r.Canceled &&
-                startDate >= r.StartDate && startDate <= r.EndDate ||
-                endDate >= r.StartDate && endDate <= r.EndDate);
+                (StartDateIsWithinTheDatesOfTheRent(r) ||
+                EndDateIsWithinTheDatesOfTheRent(r) ||
+                DatesOfTheRentAreWithinSentDates(r)));
+        }
+
+        public bool HasPendingRentals()
+        {
+            return Rentals.Exists(r =>
+                !r.Canceled && DateTime.Today <= r.EndDate
+            );
         }
     }
 }

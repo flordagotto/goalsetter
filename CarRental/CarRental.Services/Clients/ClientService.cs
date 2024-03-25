@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CarRental.DataAcces;
 using CarRental.Domain;
+using CarRental.Services.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
@@ -27,7 +28,7 @@ namespace CarRental.Services.Clients
         {
             try
             {
-                var clients = await _dbContext.Clients.ToListAsync();
+                var clients = await _dbContext.Clients.Include(c => c.Rentals).ToListAsync();
                 return _mapper.Map<List<ClientDto>>(clients);
             }
             catch (Exception ex)
@@ -74,10 +75,12 @@ namespace CarRental.Services.Clients
         {
             try
             {
-                var client = await _dbContext.Clients.FindAsync(id);
-                if (client == null)
+                var client = await _dbContext.Clients.FindAsync(id) ?? throw new EntityNotFoundException($"The Client with id {id} was not found");
+                await _dbContext.Entry(client).Collection(v => v.Rentals).LoadAsync();
+
+                if (client.HasPendingRentals())
                 {
-                    throw new Exception("The Client with id was not found");
+                    throw new EntityWithPendingRentalsException($"The client with id {id} has pending rentals");
                 }
 
                 _dbContext.Clients.Remove(client);

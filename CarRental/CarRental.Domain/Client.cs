@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace CarRental.Domain
@@ -9,5 +10,12 @@ namespace CarRental.Domain
         public string Name { get; set; }
         public string LastName { get; set; }
         public List<Rental> Rentals { get; set; }
+
+        public bool HasPendingRentals()
+        {
+            return Rentals.Exists(r =>
+                !r.Canceled && DateTime.Today <= r.EndDate
+            );
+        }
     }
 }
