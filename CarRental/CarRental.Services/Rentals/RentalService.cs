@@ -63,6 +63,7 @@ namespace CarRental.Services.Rentals
 
                 var vehicle = await _dbContext.Vehicles.FirstOrDefaultAsync(v => v.Id == rentalDto.VehicleId) ?? throw new EntityNotFoundException($"The Vehicle with id {rentalDto.VehicleId} does not exist");
                 await _dbContext.Entry(vehicle).Collection(v => v.Rentals).LoadAsync();
+                
                 if (!vehicle.IsAvailable(rentalDto.StartDate, rentalDto.EndDate))
                 {
                     throw new VehicleNotAvailableException("The Vehicle is not available for the selected date range");

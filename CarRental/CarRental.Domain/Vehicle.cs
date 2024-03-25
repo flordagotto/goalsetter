@@ -12,11 +12,26 @@ namespace CarRental.Domain
 
         public bool IsAvailable(DateTime startDate, DateTime endDate)
         {
+            bool StartDateIsWithinTheDatesOfTheRent(Rental rental)
+            {
+                return startDate >= rental.StartDate.AddDays(-1) && startDate <= rental.EndDate.AddDays(1);
+            }
+
+            bool EndDateIsWithinTheDatesOfTheRent(Rental rental)
+            {
+                return endDate >= rental.StartDate.AddDays(-1) && endDate <= rental.EndDate.AddDays(1);
+            }
+
+            bool DatesOfTheRentAreWithinSentDates(Rental rental)
+            {
+                return startDate <= rental.StartDate && endDate >= rental.EndDate;
+            }
+
             return !Rentals.Exists(r =>
                 !r.Canceled &&
-                (startDate >= r.StartDate.AddDays(-1) && startDate <= r.EndDate.AddDays(1) ||
-                endDate >= r.StartDate.AddDays(-1) && endDate <= r.EndDate.AddDays(1) ||
-                startDate <= r.StartDate && endDate >= r.EndDate));
+                (StartDateIsWithinTheDatesOfTheRent(r) ||
+                EndDateIsWithinTheDatesOfTheRent(r) ||
+                DatesOfTheRentAreWithinSentDates(r)));
         }
 
         public bool HasPendingRentals()
